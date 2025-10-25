@@ -1,82 +1,87 @@
-console.log("hello world");
+let humanScore = 0, computerScore = 0;
+
+const rockButton = document.querySelector('#rock');
+const paperButton = document.querySelector('#paper');
+const scissorsButton = document.querySelector('#scissors');
 
 
 // Getting Computer Choice
-function getComputerChoice() 
-{
-    let num = Math.floor(Math.random() * 3);
-    if (num === 0) return "rock";
-    else if (num === 1) return "paper";
-    else return "scissors";
+function getComputerChoice() {
+    const choices = ['rock', 'paper', 'scissors'];
+    return choices[Math.floor(Math.random() * 3)];
 }
 
 
-// Getting Human Choice
-
-function getHumanChoice() 
-{
-    let value = prompt("Rock, Paper or Scissors?");
-    if(!value) return getHumanChoice();
-    value = value.toLowerCase();
-    if(value === "rock" || value === "paper" || value === "scissors") 
-    {
-        return value;
-    } 
-    else 
-    {
-        return getHumanChoice();
+// Playing the Round
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) {
+        document.querySelector('.results').textContent = `Tie! Both chose ${humanChoice}`;
     }
-}
+    else if ((computerChoice === "rock" && humanChoice === "scissors") ||
+        (computerChoice === "paper" && humanChoice === "rock") ||
+        (computerChoice === "scissors" && humanChoice === "paper")) {
+        computerScore++;
+        document.querySelector('.results').textContent = `You lose! ${computerChoice} beats ${humanChoice}`;
+    }
+    else {
+        humanScore++;
+        document.querySelector('.results').textContent = `You win! ${humanChoice} beats ${computerChoice}`;
+    }
 
-// Playing the Game
-function playGame()
-{
+    document.getElementById('human').textContent = `You : ${humanScore}`;
+    document.getElementById('computer').textContent = `Computer : ${computerScore}`;
 
-    let humanScore = 0, computerScore = 0;
-
-    // Playing the Round
-    function playRound(humanChoice, computerChoice) 
-    {
-        if(humanChoice === computerChoice) 
+    if(humanScore == 5 || computerScore == 5)
         {
-            console.log(`Tie! Both chose ${humanChoice}`);
-        } 
-        else if((computerChoice === "rock" && humanChoice === "scissors") ||
-                (computerChoice === "paper" && humanChoice === "rock") ||
-                (computerChoice === "scissors" && humanChoice === "paper"))
-        {
-            computerScore++;
-            console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+            document.querySelector('.results').textContent = humanScore == 5 ? 'You won the game. Click on any button to play again.' : 'Computer won the game. Click on any button to play again.';
+            
+
+            humanScore = 0;
+            computerScore = 0;
         }
-        else
-        {
-            humanScore++;
-            console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-        }  
-
-        console.log(`You: ${humanScore} and Computer: ${computerScore}`);
-    }
-
-
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-
-
-    // Results
-    if(humanScore > computerScore)
-    {
-        console.log("Congrats! You won the game");
-    }
-    else if(humanScore < computerScore)
-    {
-        console.log("Sorry! You lost the game");
-    }
-    else
-    {
-        console.log("It's a tie");
-    }
 }
+
+
+
+
+
+// Getting choice from users
+
+rockButton.addEventListener('click', function (e) {
+    e.stopPropagation();
+    playRound('rock', getComputerChoice());
+
+
+})
+paperButton.addEventListener('click', function (e) {
+    e.stopPropagation();
+    playRound('paper', getComputerChoice());
+
+
+})
+scissorsButton.addEventListener('click', function (e) {
+    e.stopPropagation();
+    playRound('scissors', getComputerChoice());
+
+
+})
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
 
